@@ -1,0 +1,43 @@
+# 가상 환경
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Dataset
+data/
+samples/
+
+# 실행 결과
+outputs/
+
+# 모델
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# 영상
+*.mp4
+*.avi
+*.mov
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Cache
+.cache/
+
+# 환경설정
+.env
+env
+
+# Jupyter
+.ipynb_checkpoints/

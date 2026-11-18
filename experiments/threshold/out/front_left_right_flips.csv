@@ -1,0 +1,10 @@
+﻿video,frame_id,joint,left_conf,right_conf
+S03_A008_near_front,37,shoulder,0.993,0.997
+S03_A008_near_front,59,shoulder,0.993,0.997
+S03_A008_near_front,102,shoulder,0.993,0.997
+S03_A008_near_front,126,shoulder,0.994,0.993
+S03_A008_near_front,127,shoulder,0.991,0.995
+S03_A008_near_front,59,hip,0.999,0.999
+S03_A008_near_front,102,hip,0.999,0.999
+S03_A008_near_front,126,hip,0.999,0.999
+S03_A008_near_front,127,hip,0.999,0.999

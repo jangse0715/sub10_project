@@ -1,0 +1,28 @@
+﻿video,frame_id,time_sec,low_count,mean_kp_conf,lowest_keypoint,lowest_conf,low_keypoints
+S01_A003_far_front,361,15.0,2,0.8796,left_ear,0.0706,left_eye left_ear
+S01_A003_far_left,41,1.667,4,0.772,right_ear,0.0748,right_eye right_ear right_elbow right_wrist
+S01_A003_far_right,262,10.875,6,0.6738,left_eye,0.0177,nose left_eye right_eye left_ear left_elbow left_wrist
+S01_A003_near_front,285,11.833,2,0.8495,left_ear,0.0049,left_eye left_ear
+S01_A003_near_left,100,4.125,6,0.7104,right_eye,0.0062,nose left_eye right_eye right_ear right_elbow right_wrist
+S01_A003_near_right,320,13.292,5,0.7258,left_eye,0.0188,nose left_eye right_eye left_ear left_wrist
+S01_A007_far_front,105,4.333,2,0.8473,left_ear,0.3145,left_ear right_ear
+S01_A007_far_left,30,1.208,4,0.7734,right_ear,0.1202,right_eye right_ear right_elbow right_wrist
+S01_A007_far_right,54,2.208,4,0.7375,left_ear,0.094,left_eye left_ear left_elbow left_wrist
+S01_A007_near_front,113,4.667,2,0.8516,left_ear,0.2589,left_ear right_ear
+S01_A007_near_left,190,7.875,2,0.8134,right_ear,0.0356,right_eye right_ear
+S01_A007_near_right,130,5.375,4,0.7679,left_ear,0.0154,left_eye left_ear left_elbow left_wrist
+S01_A008_far_front,149,6.167,1,0.893,left_ear,0.4651,left_ear
+S01_A008_far_left,10,0.375,4,0.7694,right_ear,0.0803,right_eye right_ear right_elbow right_wrist
+S01_A008_far_right,22,0.875,4,0.7805,left_ear,0.0759,left_eye left_ear left_elbow left_wrist
+S01_A008_near_front,34,1.375,5,0.7584,left_eye,0.0468,nose left_eye right_eye left_ear right_ear
+S01_A008_near_left,213,8.833,3,0.8206,right_ear,0.0357,right_eye right_ear right_elbow
+S01_A008_near_right,182,7.542,3,0.8011,left_ear,0.0149,left_eye left_ear left_elbow
+S02_A003_near_front,87,3.583,1,0.9225,left_ear,0.0637,left_ear
+S02_A003_near_right,175,7.25,5,0.7348,left_eye,0.0231,nose left_eye right_eye left_ear left_wrist
+S02_A007_near_front,85,3.5,1,0.9456,left_ear,0.481,left_ear
+S02_A007_near_right,100,4.125,4,0.7618,left_eye,0.021,nose left_eye left_ear left_wrist
+S02_A008_near_front,21,0.833,1,0.9313,right_ear,0.2474,right_ear
+S02_A008_near_right,105,4.333,3,0.7688,left_ear,0.0253,left_eye left_ear left_elbow
+S03_A003_near_front,1,0.0,1,0.9116,left_ear,0.0511,left_ear
+S03_A007_near_front,25,1.0,1,0.9331,left_ear,0.2365,left_ear
+S03_A008_near_front,127,5.25,4,0.7738,left_eye,0.073,nose left_eye right_eye left_ear

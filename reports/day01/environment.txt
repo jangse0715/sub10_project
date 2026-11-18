@@ -1,0 +1,9 @@
+Python: 3.14.6
+Platform: Windows-11-10.0.26200-SP0
+OpenCV: 5.0.0
+PyTorch: 2.15.0+cpu
+Ultralytics: 8.4.203
+CUDA available: False
+PyTorch CUDA: None
+GPU: CPU mode
+Selected device: cpu
