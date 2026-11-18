@@ -98,7 +98,7 @@
 - 각 칸은 동작 3개 영상의 평균이다. 단 2명 이상 Frame은 합계, 최대와 가장 낮은 Conf는 최댓값·최솟값이다.
 - LOW 관절 수는 10번이 Frame마다 센 `low_keypoint_count`(17개 관절 중 0.50 미만)다.
 - \* 교재의 BBox Area Ratio는 10번 CSV에 기록되지 않는다. 그래서 Frame마다 관절 17개를 감싸는 사각형의 넓이를 화면 넓이로 나눈 값(중앙값)으로 대신했다. 사람이 화면에서 얼마나 크게 보이는지를 나타낸다.
-- 영상별 표는 `out/textbook_format_by_video.csv`에 있다.
+- 영상별 표는 `tables/textbook_format_by_video.csv`에 있다.
 
 ---
 
@@ -112,7 +112,7 @@
 
 #### ① 배우가 아닌 대상이 사람으로 검출되고, 그 관절도 신뢰도를 받았다
 
-2명 이상 잡힌 영상 4개를 같은 모델과 같은 사람 검출 기준(0.25)으로 다시 검출했다. 두 번째 검출 대상의 정체와 신뢰도는 다음과 같았다(`out/secondary_detections.csv`, `spot/multi_person_check.jpg`).
+2명 이상 잡힌 영상 4개를 같은 모델과 같은 사람 검출 기준(0.25)으로 다시 검출했다. 두 번째 검출 대상의 정체와 신뢰도는 다음과 같았다(`tables/secondary_detections.csv`, `figures/multi_person_check.jpg`).
 
 | 영상 | Frame | 두 번째 검출 대상 | 사람 BBox 신뢰도 (평균) | 몸 관절 12개 평균 신뢰도 | 0.50 이상 관절 수 (평균 / 최대, 17개 중) |
 |---|---|---|---|---|---|
@@ -131,7 +131,7 @@
 
 #### ② 배우의 골격인데, 신뢰도가 높으면서 자리가 틀렸다
 
-S03_A008_near_front(정면, 인형을 얼굴 앞에 세워 드는 순간)에서 어깨·골반의 신뢰도가 0.99인데도 골격 모양이 무너졌다(`spot/s03_a008_collapse.jpg`).
+S03_A008_near_front(정면, 인형을 얼굴 앞에 세워 드는 순간)에서 어깨·골반의 신뢰도가 0.99인데도 골격 모양이 무너졌다(`figures/s03_a008_collapse.jpg`).
 
 - **확인한 것**:
   - 어깨 두 점이 실제 어깨가 아니라 인형을 든 손 근처로 좁게 몰렸다.
@@ -153,9 +153,9 @@ S03_A008_near_front(정면, 인형을 얼굴 앞에 세워 드는 순간)에서 
 
 ### 4.3 가장 불안정한 Frame과 실제 영상 확인 (§23~24)
 
-교재처럼 Frame을 "LOW 관절 수가 많은 순 → 평균 신뢰도가 낮은 순"으로 정렬해 영상마다 가장 불안정한 Frame을 골랐다(`out/worst_frame_by_video.csv`). 그중 LOW가 가장 많은 Frame들을 Pose 영상에서 직접 확인했다.
+교재처럼 Frame을 "LOW 관절 수가 많은 순 → 평균 신뢰도가 낮은 순"으로 정렬해 영상마다 가장 불안정한 Frame을 골랐다(`tables/worst_frame_by_video.csv`). 그중 LOW가 가장 많은 Frame들을 Pose 영상에서 직접 확인했다.
 
-![가장 불안정한 Frame들](spot/worst_frames.jpg)
+![가장 불안정한 Frame들](figures/worst_frames.jpg)
 
 | 영상 | Frame (시간) | LOW 관절 | 실제 영상에서 본 것 |
 |---|---|---|---|
@@ -175,9 +175,9 @@ S03_A008_near_front(정면, 인형을 얼굴 앞에 세워 드는 순간)에서 
 
 ### 5.1 방향 (S01 근거리: 정면 ↔ 옆)
 
-- **조건 변화가 데이터에 나타났나**: 그렇다. 옆모습에서 카메라 쪽 몸 관절은 0.987~0.994, 반대쪽은 0.860~0.901이었다(S01 근거리, `out/summary_by_condition.csv`).
+- **조건 변화가 데이터에 나타났나**: 그렇다. 옆모습에서 카메라 쪽 몸 관절은 0.987~0.994, 반대쪽은 0.860~0.901이었다(S01 근거리, `tables/summary_by_condition.csv`).
 - **품질 변화**: 평균 KP Conf는 0.948에서 0.826~0.857로 내려갔다. Frame당 LOW는 0.45개에서 2.04~2.31개로 늘었다.
-- **어디가 낮아졌나**: 반대쪽 얼굴(귀·눈)과 반대쪽 팔꿈치·손목이다. 반대쪽 팔꿈치·손목의 중앙값은 0.62~0.64였다. 반대쪽이라도 어깨·골반·무릎·발목은 0.946~0.993이었다(`out/hidden_side_median_by_joint.csv`).
+- **어디가 낮아졌나**: 반대쪽 얼굴(귀·눈)과 반대쪽 팔꿈치·손목이다. 반대쪽 팔꿈치·손목의 중앙값은 0.62~0.64였다. 반대쪽이라도 어깨·골반·무릎·발목은 0.946~0.993이었다(`tables/hidden_side_median_by_joint.csv`).
 
 > X 옆모습에서는 관절 전체가 불안정하다.
 > O 이번 데이터에서 옆모습은 카메라 반대쪽 얼굴과 반대쪽 팔꿈치·손목의 신뢰도를 낮췄고, 다리·골반·카메라 쪽 팔은 정면과 비슷했다.
@@ -243,9 +243,9 @@ S03_A008_near_front(정면, 인형을 얼굴 앞에 세워 드는 순간)에서 
 | 카메라 쪽 팔: 남는 비율 | 100% | 100% | 100% | 100% | 99.9% | 99.6% | 98.8% | 95.8% | 88.6% |
 | 가려진 팔: 걸러지는 비율 | 0.9% | 2.6% | 10.8% | 28.8% | 43.9% | 66.7% | 85.9% | 94.3% | 97.0% |
 
-![옆모습 영상의 팔 관절 신뢰도 분포](out/fig1_arm_conf_distribution.png)
+![옆모습 영상의 팔 관절 신뢰도 분포](figures/fig1_arm_conf_distribution.png)
 
-![기준값을 올릴 때 남는 관절과 걸러지는 관절](out/fig2_threshold_sweep_arms.png)
+![기준값을 올릴 때 남는 관절과 걸러지는 관절](figures/fig2_threshold_sweep_arms.png)
 
 ### 6.4 Frame 단위로 거를 때 남는 양
 
@@ -277,7 +277,7 @@ S03_A008_near_front(정면, 인형을 얼굴 앞에 세워 드는 순간)에서 
 
 옆모습 영상 5개에서 신뢰도 구간별로 표본을 뽑아 원본 Frame 위에 표시해 판정했다. 빨간 원이 판정 대상 관절이고, 초록 십자는 같은 이름의 반대쪽 관절이다.
 
-![구간별 표본](spot/spot_sheet.jpg)
+![구간별 표본](figures/spot_sheet.jpg)
 
 | 구간 | 표본 | 맞음 | 그럴듯함 | 의심 | 틀림 |
 |---|---|---|---|---|---|
@@ -354,24 +354,44 @@ S03_A008_near_front(정면, 인형을 얼굴 앞에 세워 드는 순간)에서 
 4. 골격 모양 검사를 27번 보조 규칙으로 넣어 볼지 정하고, 걸리는 Frame을 Pose 영상에서 확인한다.
 5. 검수 0.50, Feature 0.80(관절 단위 가리기)으로 6일차 Baseline을 만들고, 가리지 않은 경우와 검증 성능을 비교한다. 한 번에 한 조건만 바꾼다.
 
-## 11. 재현 방법과 파일
+## 11. 폴더 구성과 재현 방법
+
+```
+experiments/threshold/
+├── threshold_report.md        이 보고서
+├── code/                      분석 스크립트
+│   ├── analyze_threshold.py   tables/ 의 표를 만든다 (3~6장)
+│   ├── make_figs.py           figures/fig1·fig2 를 만든다 (6.3)
+│   ├── check_secondary_detections.py   tables/secondary_detections.csv (4.1 ①)
+│   └── spot_sample.py         figures/spot_sheet.jpg, labels/spot_samples.csv (6.6)
+├── tables/                    결과표 (csv)
+├── figures/                   보고서 그림
+└── labels/                    육안 판정 기록
+```
 
 ```bash
 # sub10_project 루트에서
-python experiments/threshold/analyze_threshold.py --tables reports/day02/tables --out experiments/threshold/out
-python experiments/threshold/make_figs.py reports/day02/tables experiments/threshold/out
-python experiments/threshold/check_secondary_detections.py --out experiments/threshold/out/secondary_detections.csv <2명 이상 잡힌 원본 영상들>
+python experiments/threshold/code/analyze_threshold.py
+python experiments/threshold/code/make_figs.py
+python experiments/threshold/code/spot_sample.py
+python experiments/threshold/code/check_secondary_detections.py data/videos/S01/S01_A007_far_left.mp4 data/videos/S01/S01_A008_near_left.mp4 data/videos/S01/S01_A008_near_right.mp4 data/videos/S02/S02_A008_near_right.mp4
 ```
 
-| 파일 | 내용 |
+- 입력은 `reports/day02/tables/`의 10번 결과다. `spot_sample.py`와 `check_secondary_detections.py`는 원본 영상이 `data/videos/<사람번호>/`에 있어야 한다.
+- `labels/spot_judgments.csv`는 사람이 `figures/spot_sheet.jpg`를 보고 직접 적은 판정 기록이다.
+- `figures/worst_frames.jpg`, `figures/multi_person_check.jpg`, `figures/s03_a008_collapse.jpg`는 Pose 영상에서 해당 Frame을 잘라 붙인 확인용 캡처다. 스크립트로 만들지 않았다. 고른 Frame은 `tables/worst_frame_by_video.csv`, `tables/secondary_detections.csv`, `tables/front_left_right_flips.csv`에 있다.
+
+| 파일 | 보고서 위치 |
 |---|---|
-| `out/textbook_format_by_video.csv`, `out/textbook_format_by_condition.csv` | 3장 비교표 |
-| `out/worst_frame_by_video.csv`, `spot/worst_frames.jpg` | 4.3 |
-| `out/secondary_detections.csv`, `spot/multi_person_check.jpg` | 4.1 ① |
-| `out/front_left_right_flips.csv`, `out/skeleton_shape_checks.csv`, `spot/s03_a008_collapse.jpg` | 4.1 ② (기록된 골격이 튀었는지는 `track_jump_frames_gt100px` 열) |
-| `out/summary_by_condition.csv`, `out/hidden_side_median_by_joint.csv`, `out/hidden_arm_median_by_group.csv` | 5장 |
-| `out/threshold_sweep_by_video.csv`, `out/threshold_sweep_by_condition.csv`, `out/visibility_separation.csv`, `out/jitter_*.csv` | 6장 |
-| `spot/spot_samples.csv`, `spot/spot_judgments.csv`, `spot/spot_sheet.jpg` | 6.6 (`spot_sample.py`의 영상 경로는 실행 환경에 맞게 고쳐야 한다) |
+| `tables/textbook_format_by_video.csv`, `tables/textbook_format_by_condition.csv` | 3장 |
+| `tables/secondary_detections.csv`, `figures/multi_person_check.jpg` | 4.1 ① |
+| `tables/front_left_right_flips.csv`, `tables/skeleton_shape_checks.csv`, `figures/s03_a008_collapse.jpg` | 4.1 ② |
+| `tables/worst_frame_by_video.csv`, `figures/worst_frames.jpg` | 4.3 |
+| `tables/summary_by_condition.csv`, `tables/hidden_side_median_by_joint.csv`, `tables/hidden_arm_median_by_group.csv` | 5장 |
+| `tables/threshold_sweep_by_video.csv`, `tables/threshold_sweep_by_condition.csv` | 6.2, 6.4 |
+| `tables/visibility_separation.csv`, `figures/fig1_arm_conf_distribution.png`, `figures/fig2_threshold_sweep_arms.png` | 6.3 |
+| `tables/jitter_by_conf_bin.csv` | 6.5 |
+| `labels/spot_samples.csv`, `labels/spot_judgments.csv`, `figures/spot_sheet.jpg` | 6.6 |
 
 ## 더 읽기
 

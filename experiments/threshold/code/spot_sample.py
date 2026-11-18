@@ -1,8 +1,13 @@
-# 육안 판정용 표본 시트 생성.
+"""육안 판정용 표본 시트(figures/spot_sheet.jpg)와 표본 목록(labels/spot_samples.csv)을 만든다.
+
+실행 예 (sub10_project 루트에서)
+  python experiments/threshold/code/spot_sample.py
+판정 결과(labels/spot_judgments.csv)는 사람이 시트를 보고 직접 적는다.
+"""
 import cv2, numpy as np, pandas as pd
 from pathlib import Path
 # sub10_project 루트 기준 경로. 원본 영상은 data/videos/<사람번호>/<영상이름>.mp4 에 있어야 한다.
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 TABLES = ROOT / "reports" / "day02" / "tables"
 VIDEO_DIR = ROOT / "data" / "videos"
 NAMES = ['S01_A003_near_right','S01_A007_near_right','S01_A003_far_right','S02_A003_near_right','S02_A007_near_right']
@@ -32,6 +37,6 @@ for i,r in picked.iterrows():
     cv2.putText(lab,f"#{i} {r.group}",(4,16),cv2.FONT_HERSHEY_SIMPLEX,0.45,(0,0,0),1)
     cv2.putText(lab,f"{r.keypoint_name} {r.confidence:.2f} {r.video[:3]}{r.video[3:8]} f{int(r.frame_id)}",(4,36),cv2.FONT_HERSHEY_SIMPLEX,0.4,(0,0,0),1)
     tiles.append(np.vstack([lab,crop]))
-cv2.imwrite(str(ROOT / 'experiments' / 'threshold' / 'spot' / 'spot_sheet.jpg'),np.vstack([np.hstack(tiles[k:k+6]) for k in range(0,24,6)]),[cv2.IMWRITE_JPEG_QUALITY,85])
-picked[['group','video','frame_id','keypoint_name','confidence','pixel_x','pixel_y']].to_csv(str(ROOT / 'experiments' / 'threshold' / 'spot' / 'spot_samples.csv'),index_label='id')
+cv2.imwrite(str(ROOT / 'experiments' / 'threshold' / 'figures' / 'spot_sheet.jpg'),np.vstack([np.hstack(tiles[k:k+6]) for k in range(0,24,6)]),[cv2.IMWRITE_JPEG_QUALITY,85])
+picked[['group','video','frame_id','keypoint_name','confidence','pixel_x','pixel_y']].to_csv(str(ROOT / 'experiments' / 'threshold' / 'labels' / 'spot_samples.csv'),index_label='id')
 print(picked[['group','video','frame_id','keypoint_name','confidence']].to_string())

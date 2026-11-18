@@ -1,11 +1,10 @@
 """관절 신뢰도 기준값(threshold) 분석.
 
 입력: reports/day02/tables/ 의 10번 결과 (S0x_A00x_<거리>_<방향>_keypoints.csv, _frame_quality.csv)
-출력: out/ 아래 표(csv)와 그림(png)
+출력: experiments/threshold/tables/ 아래 표(csv). 그림은 make_figs.py가 만든다.
 
 실행 예 (sub10_project 루트에서)
-  python experiments/threshold/analyze_threshold.py \
-      --tables reports/day02/tables --out experiments/threshold/out
+  python experiments/threshold/code/analyze_threshold.py
 """
 
 from __future__ import annotations
@@ -88,7 +87,7 @@ def jitter(kp: pd.DataFrame) -> pd.DataFrame:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tables", default="reports/day02/tables")
-    ap.add_argument("--out", default="experiments/threshold/out")
+    ap.add_argument("--out", default="experiments/threshold/tables")
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
@@ -129,7 +128,6 @@ def main() -> None:
             if m.direction != "front" else np.nan,
         })
     summary = pd.DataFrame(rows).sort_values(["direction", "distance", "action", "subject"])
-    summary.to_csv(out / "summary_by_video.csv", index=False, encoding="utf-8-sig")
     keys = ["direction", "distance", "subject"]
     cond = summary.groupby(keys).agg(
         videos=("video", "size"), frames=("frames", "sum"), multi_person=("multi_person", "sum"),
@@ -140,12 +138,7 @@ def main() -> None:
         lambda x: x.value_counts().index[0])
     cond.to_csv(out / "summary_by_condition.csv", encoding="utf-8-sig")
 
-    # 2) 관절별 평균 신뢰도 (방향 × 거리)
-    per_joint = (kp.groupby(["direction", "distance", "keypoint_name"]).confidence.mean()
-                 .unstack(["direction", "distance"]).round(3))
-    per_joint.to_csv(out / "per_joint_conf.csv", encoding="utf-8-sig")
-
-    # 3) 기준값 구간별 비교 (영상마다)
+    # 2) 기준값 구간별 비교 (영상마다)
     sweep = []
     for v, g in kp.groupby("video"):
         m = meta[meta.video == v].iloc[0]
@@ -180,7 +173,7 @@ def main() -> None:
         lambda s: int((s == "CHECK").sum()))
     grp.to_csv(out / "threshold_sweep_by_condition.csv", encoding="utf-8-sig")
 
-    # 4) 신뢰도 구간별 좌표 흔들림
+    # 3) 신뢰도 구간별 좌표 흔들림
     jit = jitter(kp[kp.keypoint_name.isin(BODY12)])
     jit = jit.merge(meta, on="video").merge(
         kp[["video", "frame_id", "keypoint_name", "side_group"]],
@@ -192,12 +185,8 @@ def main() -> None:
         p90=lambda s: s.quantile(0.9),
         jump_ratio=lambda s: (s > 0.10).mean()).round(3)
     jb.to_csv(out / "jitter_by_conf_bin.csv", encoding="utf-8-sig")
-    jbd = jit.groupby(["direction", "bin"], observed=False).residual.agg(
-        count="size", median="median",
-        jump_ratio=lambda s: (s > 0.10).mean()).round(3)
-    jbd.to_csv(out / "jitter_by_direction_bin.csv", encoding="utf-8-sig")
 
-    # 4-2) 옆모습에서 기준값이 '보이는 관절 / 가려진 관절'을 얼마나 가르나
+    # 4) 옆모습에서 기준값이 '보이는 관절 / 가려진 관절'을 얼마나 가르나
     side = kp[(kp.direction != "front") & kp.keypoint_name.isin(BODY12)].copy()
     side["visible"] = side.side_group == "camera_side"
     arm = side[side.keypoint_name.str.contains("elbow|wrist")]
@@ -230,15 +219,7 @@ def main() -> None:
         ],
     }).round(3).to_csv(out / "hidden_arm_median_by_group.csv", index=False, encoding="utf-8-sig")
 
-    # 5) 신뢰도 구간 분포 (조건별)
-    kp["bin"] = pd.cut(kp.confidence, BINS, labels=BIN_LABELS, right=False)
-    dist = (kp[kp.keypoint_name.isin(BODY12)]
-            .groupby(["direction", "distance", "subject", "bin"], observed=False).size()
-            .unstack("bin"))
-    dist = (dist.div(dist.sum(axis=1), axis=0) * 100).round(1)
-    dist.to_csv(out / "conf_bin_share_body12.csv", encoding="utf-8-sig")
-
-    # 6) 교재 2일차 §17 비교표 형식 (영상별·조건별) + §24 가장 불안정한 Frame
+    # 5) 교재 2일차 §17 비교표 형식 (영상별·조건별) + §24 가장 불안정한 Frame
     tb, worst = [], []
     for v, f in fq.groupby("video"):
         m = meta[meta.video == v].iloc[0]
@@ -277,7 +258,7 @@ def main() -> None:
     tc["lowest_keypoint"] = tb.groupby(keys).lowest_keypoint.agg(lambda x: x.value_counts().index[0])
     tc.to_csv(out / "textbook_format_by_condition.csv", encoding="utf-8-sig")
 
-    # 7) 정면 영상에서 신뢰도가 높은데 좌우가 뒤집힌 Frame
+    # 6) 정면 영상에서 신뢰도가 높은데 좌우가 뒤집힌 Frame
     flips = []
     for v, g in kp[kp.direction == "front"].groupby("video"):
         X = g.pivot(index="frame_id", columns="keypoint_name", values="pixel_x")
@@ -295,7 +276,7 @@ def main() -> None:
     pd.DataFrame(flips, columns=["video", "frame_id", "joint", "left_conf", "right_conf"]).to_csv(
         out / "front_left_right_flips.csv", index=False, encoding="utf-8-sig")
 
-    # 8) 골격 모양 검사: 정면 어깨 폭 붕괴, 기록된 골격이 배우 위치에서 튀는지
+    # 7) 골격 모양 검사: 정면 어깨 폭 붕괴, 기록된 골격이 배우 위치에서 튀는지
     shape = []
     for v, g in kp.groupby("video"):
         m = meta[meta.video == v].iloc[0]

@@ -1,12 +1,28 @@
-import pandas as pd, glob, re, numpy as np, matplotlib, sys
+"""threshold 보고서 그림 2개(fig1, fig2)를 만든다.
+
+실행 예 (sub10_project 루트에서)
+  python experiments/threshold/code/make_figs.py
+"""
+import argparse, glob, re
+import numpy as np, pandas as pd, matplotlib
+from pathlib import Path
 matplotlib.use('Agg'); import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
-F='/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'
-fm.fontManager.addfont(F); plt.rcParams['font.family']=fm.FontProperties(fname=F).get_name()
-tables, out = sys.argv[1], sys.argv[2]
+ap = argparse.ArgumentParser()
+ap.add_argument("--tables", default="reports/day02/tables")
+ap.add_argument("--out", default="experiments/threshold/figures")
+ap.add_argument("--font", default="", help="한글 글꼴 파일 경로 (비우면 설치된 한글 글꼴을 찾는다)")
+args = ap.parse_args()
+tables, out = args.tables, args.out
+Path(out).mkdir(parents=True, exist_ok=True)
+# 한글 글꼴: 지정한 파일 → 설치된 글꼴 중 이름으로 찾기 → 없으면 기본 글꼴(한글이 네모로 보일 수 있음)
+font = args.font if args.font and Path(args.font).exists() else next(
+    (f for f in fm.findSystemFonts() if re.search(r'(NotoSansCJK-Regular|NotoSansKR|NanumGothic|malgun)', f, re.I)), None)
+if font:
+    fm.fontManager.addfont(font); plt.rcParams['font.family'] = fm.FontProperties(fname=font).get_name()
 rows=[]
 for p in glob.glob(f'{tables}/*_keypoints.csv'):
-    st=p.split('/')[-1][:-14]; m=re.match(r'(S\d\d)_(A\d{3})_(near|far)_(front|left|right)$',st)
+    st=Path(p).name[:-14]; m=re.match(r'(S\d\d)_(A\d{3})_(near|far)_(front|left|right)$',st)
     if not m or m.group(4)=='front': continue
     k=pd.read_csv(p); k=k[k.keypoint_name.str.contains('elbow|wrist')].copy(); k['visible']=k.keypoint_name.str.startswith(m.group(4)); rows.append(k)
 k=pd.concat(rows); h=k[~k.visible]; v=k[k.visible]

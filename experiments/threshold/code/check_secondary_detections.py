@@ -4,8 +4,8 @@
 sub10_project 루트에서 실행해야 모델 파일(yolo11n-pose.pt)을 프로젝트 것으로 쓴다.
 
 실행 예
-  python experiments/threshold/check_secondary_detections.py \
-      --out experiments/threshold/out/secondary_detections.csv \
+  python experiments/threshold/code/check_secondary_detections.py \
+      --out experiments/threshold/tables/secondary_detections.csv \
       "<원본 영상 경로 1>" "<원본 영상 경로 2>" ...
 """
 
@@ -25,7 +25,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("videos", nargs="+")
     ap.add_argument("--config", default="configs/project.json")
-    ap.add_argument("--out", default="experiments/threshold/out/secondary_detections.csv")
+    ap.add_argument("--out", default="experiments/threshold/tables/secondary_detections.csv")
     args = ap.parse_args()
     cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
     model = YOLO(cfg["pose_model"])
