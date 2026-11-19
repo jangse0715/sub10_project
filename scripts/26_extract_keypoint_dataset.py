@@ -62,7 +62,7 @@ DEFAULT_MANIFEST_PATH = (
 )
 
 FILENAME_PATTERN = re.compile(
-    r"^(S\d{2})_" r"(A\d{3})_" r"(T\d{2})\.mp4$",
+    r"^(S\d{2})_(A\d{3})_((?:near|far)(?:_(?:front|left|right))?)\.mp4$",
     re.IGNORECASE,
 )
 
@@ -98,8 +98,8 @@ def parse_args():
     parser.add_argument(
         "--expected-clips",
         type=int,
-        default=18,
-        help=("기본 본수업은 18개. " "Challenge에서는 3을 사용합니다."),
+        default=33,
+        help=("현재 data/videos 영상 수(33개). " "영상을 추가·제외하면 함께 바꾼다."),
     )
 
     return parser.parse_args()
@@ -127,17 +127,8 @@ def load_action_map() -> dict[str, str]:
         row["action_id"].strip().upper(): row["action_label"].strip() for row in rows
     }
 
-    expected = {
-        "A001",
-        "A002",
-        "A003",
-        "A004",
-        "A005",
-        "A006",
-    }
-
-    if set(action_map) != expected:
-        raise RuntimeError("action_classes.csv의 " "A001~A006 정의를 " "확인하세요.")
+    if not action_map:
+        raise RuntimeError("action_classes.csv에 " "동작 정의가 없습니다.")
 
     return action_map
 
@@ -192,7 +183,7 @@ def parse_clip_name(
 
     subject = match.group(1).upper()
     action_id = match.group(2).upper()
-    take = match.group(3).upper()
+    take = match.group(3).lower()  # 촬영 조건: near_front, far_left ...
 
     if path.parent.name != subject:
         raise ValueError("Subject 폴더와 파일명이 " f"다릅니다: {path}")

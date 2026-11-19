@@ -87,7 +87,7 @@ TAKE = "T01"
 # 이후 별도로 비교합니다.
 
 FILENAME_PATTERN = re.compile(
-    r"^(S\d{2})_(A\d{3})_(T\d{2})\.mp4$",
+    r"^(S\d{2})_(A\d{3})_((?:near|far)(?:_(?:front|left|right))?)\.mp4$",
     re.IGNORECASE,
 )
 
@@ -262,7 +262,9 @@ def main() -> None:
     # actual - expected:
     # 예상 목록에는 없는 추가 파일
 
-    expected = expected_paths()
+    # 현재 구조는 사람마다 촬영 조건(거리·방향)이 달라 고정된 예상 목록이 없다.
+    # 실제 MP4 목록을 그대로 쓰고, 파일명 규칙 검사(⑪ 이후)로 확인한다.
+    expected = set(VIDEO_ROOT.rglob("*.mp4"))
 
     actual = set(VIDEO_ROOT.rglob("*.mp4"))
 
@@ -353,7 +355,7 @@ def main() -> None:
 
         action_id = match.group(2).upper()
 
-        take = match.group(3).upper()
+        take = match.group(3).lower()  # 촬영 조건: near_front, far_left ...
 
         # ==========================================
         # ⑬ 파일명의 Subject와 실제 폴더명 비교
@@ -476,10 +478,8 @@ def main() -> None:
 
         raise RuntimeError("5일차 입력 영상을 " "다시 확인하세요.")
 
-    if len(rows) != 18:
-        raise RuntimeError(
-            "5일차 기본 데이터는 " f"18개여야 합니다. " f"현재 {len(rows)}개입니다."
-        )
+    if not rows:
+        raise RuntimeError("검사할 MP4가 없습니다.")
 
     # ==============================================
     # ⑰ 18개 영상의 목록표를 CSV로 저장

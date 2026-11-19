@@ -27,10 +27,10 @@ from src.pose_utils import (
 def parse_args():
     parser = argparse.ArgumentParser()
 
-    # 분석할 MP4 영상 (기본값)
+    # 분석할 MP4 영상 (필수: 예 data/videos/S01/S01_A003_near_front.mp4)
     parser.add_argument(
         "--source",
-        default=str(ROOT / "data" / "day02" / "videos" / "pose_quality_demo.mp4"),
+        required=True,
     )
     # LOW 관절을 판단할 Confidence 기준
     parser.add_argument(

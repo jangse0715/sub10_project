@@ -1,0 +1,21 @@
+﻿날짜,이름,GitHub,분류,단계,한 일,결과·숫자,파일·커밋,상태,문제·원인,다음 할 일
+2026-11-09,이성형,sunghyunglee,Data Collection,① 데이터 설계,VICON 3D MoCap 촬영 세션 진행 · Raw 모션 데이터 수집,,,Done,,
+2026-11-10,이성형,sunghyunglee,Data Collection,① 데이터 설계,VICON 3D MoCap 촬영 세션 진행 · Raw 모션 데이터 수집,,,Done,,
+2026-11-11,이성형,sunghyunglee,Data Collection,① 데이터 설계,VICON 3D MoCap 촬영 세션 진행 · Raw 모션 데이터 수집,,,Done,,
+2026-11-12,이성형,sunghyunglee,Data Collection,① 데이터 설계,VICON 3D MoCap 촬영 세션 진행 · Raw 모션 데이터 수집,,,Done,,
+2026-11-13,이성형,sunghyunglee,Data Collection,① 데이터 설계,VICON 3D MoCap 촬영 세션 진행 · Raw 모션 데이터 수집,,,Done,,
+2026-11-16,이성형,sunghyunglee,Data Collection,① 데이터 설계,RGB 영상 데이터 수집 (스마트폰 촬영),13개 Action Scene(C001~C013) × Take T001~T003 · 총 20 Clip,action_scene.zip,Done,,
+2026-11-16,이성형,sunghyunglee,Data Analysis,① 데이터 설계,VICON 캡처 데이터 전수 리뷰 (비솔 촬영분),,,Done,,
+2026-11-16,이성형,sunghyunglee,Data Analysis,① 데이터 설계,Action Class 13종 정의 · Scene별 Final Take 선정,C011(목욕) 강사 피드백으로 Scope Out → Training Class 12종,바른품_촬영동작_13종.png,Done,,
+2026-11-16,이성형,sunghyunglee,Docs,① 데이터 설계,Feature Spec 정의,38-D Pose Feature + Interaction Feature(Hand–Baby Distance · Tracking),2팀_보모행동_Feature_정리.md,Done,,
+2026-11-17,이성형,sunghyunglee,Architecture,③ 모델,시스템 아키텍처 리뷰 및 확정 (w/ 상직),3-Stage Pipeline: Detection → Co-presence 시 Pose ON → Event 시 Sequence 분석,진행 현황.md 4장,Done,,Stage 전환 Threshold(BBox Overlap · 급하강 속도) 정의
+2026-11-17,이성형,sunghyunglee,Infra/Git,관리,GitHub Repo 초기 셋업 · Contribution Guide 배포 · Collaborator 초대,main 3 Commits · Invite 5명 (Pending),yolo-baby-care-action-project,Done,,Invite 수락 확인 → main Branch Protection(PR 필수 · Approve 1)
+2026-11-17,이성형,sunghyunglee,Docs,관리,README v1 배포 (Architecture Diagram),Diagram 2600×1590 PNG,67c320c · docs/images/,Done,초기 Push 시 타 프로젝트 이미지 혼입 → Hotfix,
+2026-11-17,이성형,sunghyunglee,Dev,관리,로컬 개발 환경 구성 · 디렉터리 구조 리팩터링 (day 단위 → Stage 단위),22개 파일 Path 수정 · Smoke Test(19번) Pass,~/ai_vision/baby_care_action,Done,,
+2026-11-18,이성형,sunghyunglee,Data Analysis,① 데이터 설계,데이터 이슈 분석 (w/ 상직),Gap 5건 도출 (Clip Manifest 부재 · Subject 메타데이터 누락 등),진행 현황.md,Done,파일명에 Subject ID 없음 → Subject-wise Split 불가,Subject 매핑 확인 → Clip Manifest 작성
+2026-11-18,이성형,sunghyunglee,Meeting,관리,서비스 방향 결정 미팅 (w/ 상직 · 하솔),컨셉 Pivot: 자세 코칭 → 영아 위험 상황 모니터링 · 3D Reference 영상 대비 웹캠 동작 Matching 시 OK 피드백 · 2D 실촬영 Reference 병행,방향 결정 Wireframe (VICON 재생 FastAPI 화면),Done,,Target Action 확정
+2026-11-18,이성형,sunghyunglee,Data Analysis,① 데이터 설계,Target Action 후보 Shortlist,3·5·11·12 → 1·3·5·8·11·12,팀 Discord,Done,,
+2026-11-19,이성형,sunghyunglee,Data Analysis,① 데이터 설계,영상 리뷰 기반 Target Action 최종 확정,1·3·5·8·11·12 + 위험 시나리오 3건: C002_T002(19~30s 안고 있다가 급하게 내려놓기) · C007_T001(28~34s 트림 시 과도하게 빠른 등 두드리기) · C013_T001(과도하게 빠른 흔들기) · Target 9종 (Fallback 7종),팀 Discord,Done,,
+2026-11-19,이성형,sunghyunglee,PM,관리,3D 결과 영상 편집 업무 할당 (준형),,,In Progress,,편집본 수령 · 리뷰
+2026-11-19,이성형,sunghyunglee,Research,① 데이터 설계,Desk Research: 영아 안전사고 Top 10,"2024년 0~12세 사고 13,284건 중 추락 33% (한국소비자원)",,Done,,Event 정의 · Positive Class 반영 여부 결정
+2026-11-19,이성형,sunghyunglee,PM,관리,팀 Daily Log 체계 수립 (CSV Template · Merge Script),11 Column Schema · 팀원 6명,tools/merge_baby_logs.py,Done,,팀 공유 · 공유 채널 결정
